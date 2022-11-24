@@ -18,13 +18,11 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     background: ${({theme}) => theme.color.base.background};
-    line-height: 130%;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Baloo 2', cursive;
     font-weight: 800;
-    line-height: 130%;
   }
 
   button {
