@@ -7,13 +7,17 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  :focus-visible {
+    outline: none;
+  }
+
   body, input, button, textarea {
     font-family: 'Roboto', sans-serif;
+    color: ${({theme}) => theme.color.base.text};
   }
 
   body {
     background: ${({theme}) => theme.color.base.background};
-    color: ${({theme}) => theme.color.base.text};
     line-height: 130%;
   }
 
