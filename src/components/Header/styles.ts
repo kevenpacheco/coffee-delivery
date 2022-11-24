@@ -1,10 +1,17 @@
 import styled from "styled-components";
 
-export const Container = styled.header`
+export const Container = styled.div`
+  display: grid;
+  place-items: center;
+  height: 6.5rem;
+  padding: 0 1.5rem;
+`;
+
+export const Content = styled.header`
+  width: min(1120px, 100%);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 6.5rem;
 
   > div {
     display: flex;
