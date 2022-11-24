@@ -18,10 +18,10 @@ export const Location = styled.div`
   align-items: center;
   gap: .25rem;
   padding: .5rem;
-  background: var(--color-purple-300);
+  background: ${({theme}) => theme.color.purple[300]};
   border-radius: 6px;
-  color: var(--color-purple-500);
-  font-size: var(--font-text-sm);
+  color: ${({theme}) => theme.color.purple[500]};
+  font-size: ${({theme}) => theme.font.size.text.sm};
   line-height: 130%;
 `;
 
@@ -29,7 +29,7 @@ export const Cart = styled.div`
   display: grid;
   place-items: center;
   padding: .5rem;
-  background: var(--color-yellow-300);
+  background: ${({theme}) => theme.color.yellow[300]};
   border-radius: 6px;
-  color: var(--color-yellow-500);
+  color: ${({theme}) => theme.color.yellow[500]};
 `;
