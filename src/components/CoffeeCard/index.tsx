@@ -1,10 +1,11 @@
-import { Minus, Plus, ShoppingCart } from "phosphor-react";
+import { ShoppingCart } from "phosphor-react";
 import { CoffeeType } from "../../@types/Coffee";
+import { formatToDecimalWithFractionOfTwoDigits } from "../../utils/formatToDecimalWithFractionOfTwoDigits";
+import { CountButton } from "../Buttons/CountButton";
 import {
   Actions,
   CartButton,
   Container,
-  CountButton,
   Description,
   FooterCard,
   Price,
@@ -18,10 +19,7 @@ export function CoffeeCard({
   tags,
   priceInCents,
 }: CoffeeType) {
-  const priceInReal = new Intl.NumberFormat("pt-BR", {
-    maximumFractionDigits: 2,
-    minimumFractionDigits: 2
-  }).format(priceInCents / 100);
+  const priceInReal = formatToDecimalWithFractionOfTwoDigits(priceInCents / 100);
 
   return (
     <Container>
@@ -49,15 +47,7 @@ export function CoffeeCard({
         </Price>
 
         <Actions>
-          <CountButton>
-            <button>
-              <Minus weight="bold" size={14} />
-            </button>
-            <span>1</span>
-            <button>
-              <Plus weight="bold" size={14} />
-            </button>
-          </CountButton>
+          <CountButton />
 
           <CartButton>
             <ShoppingCart weight="fill" size={22} />
