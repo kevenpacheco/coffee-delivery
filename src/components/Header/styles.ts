@@ -4,11 +4,14 @@ export const Container = styled.div`
   display: grid;
   place-items: center;
   height: 6.5rem;
-  padding: 0 1.5rem;
+  padding: ${({theme}) => `0 ${theme.layout.paddingX}`};
+  position: sticky;
+  top: 0;
+  background: ${({theme}) => theme.color.base.background};
 `;
 
 export const Content = styled.header`
-  width: min(1120px, 100%);
+  width: ${({theme}) => theme.layout.width};
   display: flex;
   align-items: center;
   justify-content: space-between;
