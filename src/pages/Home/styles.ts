@@ -41,7 +41,6 @@ export const TitleContainer = styled.div`
   p {
     margin-top: 1rem;
     font-size: ${({theme}) => theme.font.size.text.xl};
-    line-height: 130%;
     color: ${({theme}) => theme.color.base.subtitle};
   }
 `;
