@@ -4,7 +4,6 @@ export const InputContainer = styled.div`
   display: flex;
   align-items: center;
   gap: .25rem;
-  padding: 0 .75rem;
   height: 2.625rem;
   background: ${({theme}) => theme.color.base.input};
   border: 1px solid #e6e5e5;
@@ -19,6 +18,7 @@ export const InputContainer = styled.div`
     font-size: ${({theme}) => theme.font.size.text.sm};
     background: transparent;
     border: 0;
+    padding: 0 .75rem;
 
     :placeholder {
       color: ${({theme}) => theme.color.base.label};
@@ -29,5 +29,6 @@ export const InputContainer = styled.div`
     color: ${({theme}) => theme.color.base.label};
     font-size: ${({theme}) => theme.font.size.text.xs};
     font-style: italic;
+    padding-right: .75rem;
   }
 `;
