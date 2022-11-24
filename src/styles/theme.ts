@@ -47,5 +47,10 @@ export const theme = {
         xxl: '1.5rem',
       }
     }
+  },
+
+  layout: {
+    width: "min(1120px, 100%)",
+    paddingX: "1.5rem"
   }
 }

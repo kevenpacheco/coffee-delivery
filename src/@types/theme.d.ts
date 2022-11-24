@@ -46,5 +46,9 @@ declare module 'styled-components' {
         };
       };
     };
+    layout: {
+      width: string;
+      paddingX: string;
+    }
   }
 }
