@@ -73,26 +73,6 @@ export const Actions = styled.div`
   gap: .5rem;
 `;
 
-export const CountButton = styled.div`
-  display: flex;
-  align-items: center;
-  background: ${({theme}) => theme.color.base.button};
-  padding: .5rem;
-  border-radius: 6px;
-
-  button {
-    color: ${({theme}) => theme.color.purple[500]};
-    display: grid;
-    place-items: center;
-    background: transparent;
-  }
-
-  span {
-    min-width: 1.25rem;
-    text-align: center;
-  }
-`;
-
 export const CartButton = styled.button`
   display: grid;
   place-items: center;
