@@ -33,7 +33,6 @@ export const Location = styled.div`
   border-radius: 6px;
   color: ${({theme}) => theme.color.purple[500]};
   font-size: ${({theme}) => theme.font.size.text.sm};
-  line-height: 130%;
 `;
 
 export const Cart = styled.div`
