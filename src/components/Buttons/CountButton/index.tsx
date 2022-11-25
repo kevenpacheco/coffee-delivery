@@ -3,15 +3,16 @@ import { Container, SIZES_MAP } from "./styles";
 
 interface CountButtonPropsType {
   count: number;
+  min?: number;
   size?: keyof typeof SIZES_MAP;
   onIncrement: () => void;
   onDecrement: () => void;
 }
 
-export function CountButton({ count, size = "md", onDecrement, onIncrement }: CountButtonPropsType) {
+export function CountButton({ count, size = "md", min = 0, onDecrement, onIncrement }: CountButtonPropsType) {
   return (
     <Container size={size}>
-      <button type="button" onClick={onDecrement} disabled={count === 1}>
+      <button type="button" onClick={onDecrement} disabled={count === min}>
         <Minus weight="bold" size={14} />
       </button>
 
