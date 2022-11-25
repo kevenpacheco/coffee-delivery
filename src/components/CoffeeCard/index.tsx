@@ -12,14 +12,16 @@ import {
   TagsContainer,
 } from "./styles";
 
-export function CoffeeCard({
-  title,
-  description,
-  image,
-  tags,
-  priceInCents,
-}: CoffeeType) {
-  const priceInReal = formatToDecimalWithFractionOfTwoDigits(priceInCents / 100);
+interface CoffeeCardPropsType {
+  data: CoffeeType;
+}
+
+export function CoffeeCard({ data }: CoffeeCardPropsType) {
+  const { description, image, priceInCents, tags, title } = data;
+
+  const priceInReal = formatToDecimalWithFractionOfTwoDigits(
+    priceInCents / 100
+  );
 
   return (
     <Container>

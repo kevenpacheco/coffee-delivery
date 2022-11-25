@@ -74,7 +74,7 @@ export function Home() {
           <h2>Nossos cafés</h2>
           <CoffeeList>
             {coffeesMock.map((coffee) => (
-              <CoffeeCard key={coffee.id} {...coffee} />
+              <CoffeeCard key={coffee.id} data={coffee} />
             ))}
           </CoffeeList>
         </div>
