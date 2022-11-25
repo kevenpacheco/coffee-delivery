@@ -80,4 +80,9 @@ export const CartButton = styled.button`
   background: ${({theme}) => theme.color.purple[700]};
   border-radius: 6px;
   color: ${({theme}) => theme.color.base.card};
+  transition: .3s;
+
+  :hover {
+    background: ${({theme}) => theme.color.purple[500]};
+  }
 `;
