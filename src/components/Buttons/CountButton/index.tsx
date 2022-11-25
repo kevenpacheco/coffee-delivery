@@ -7,7 +7,7 @@ interface CountButtonPropsType {
 }
 
 export function CountButton({ size = "md" }: CountButtonPropsType) {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
 
   function handleDecrementCount() {
     setCount(prevState => prevState - 1)
@@ -19,7 +19,7 @@ export function CountButton({ size = "md" }: CountButtonPropsType) {
 
   return (
     <Container size={size}>
-      <button type="button" onClick={handleDecrementCount} disabled={count === 0}>
+      <button type="button" onClick={handleDecrementCount} disabled={count === 1}>
         <Minus weight="bold" size={14} />
       </button>
 
