@@ -14,17 +14,12 @@ import introIMG from "../../assets/intro-image.png";
 import { CoffeeCard } from "../../components/CoffeeCard";
 import { useState } from "react";
 import { CoffeeType } from "../../@types/Coffee";
-
-interface ShoppingCartItemsType extends CoffeeType {
-  quantity: number;
-}
+import { ShoppingCartItemsType } from "../../@types/ShoppingCartItems";
 
 export function Home() {
   const [shoppingCartItems, setShoppingCartItems] = useState<
     ShoppingCartItemsType[]
   >([]);
-
-  console.log(shoppingCartItems);
 
   function handleIncrementShoppingCartItem(
     coffee: CoffeeType,

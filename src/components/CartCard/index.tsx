@@ -1,18 +1,25 @@
 import { Trash } from "phosphor-react";
-import { CoffeeType } from "../../@types/Coffee";
+import { useState } from "react";
+import { ShoppingCartItemsType } from "../../@types/ShoppingCartItems";
 import { formatToDecimalWithFractionOfTwoDigits } from "../../utils/formatToDecimalWithFractionOfTwoDigits";
 import { CountButton } from "../Buttons/CountButton";
 import { Actions, Container, Info, RemoveButton, Total } from "./styles";
 
 interface CartCardPropsType {
-  data: CoffeeType;
+  data: ShoppingCartItemsType;
+  onIncrement: (coffeeId: string) => void;
+  onDecrement: (coffeeId: string) => void;
 }
 
-export function CartCard({ data }: CartCardPropsType) {
-  const { image, title, priceInCents } = data;
+export function CartCard({
+  data,
+  onIncrement,
+  onDecrement,
+}: CartCardPropsType) {
+  const { image, title, priceInCents, quantity, id } = data;
 
-  const price = `R$ ${formatToDecimalWithFractionOfTwoDigits(
-    priceInCents / 100
+  const priceTotal = `R$ ${formatToDecimalWithFractionOfTwoDigits(
+    (priceInCents * quantity) / 100
   )}`;
 
   return (
@@ -24,8 +31,13 @@ export function CartCard({ data }: CartCardPropsType) {
           <p>{title}</p>
 
           <Actions>
-            <CountButton size="sm" />
-            
+            <CountButton
+              size="sm"
+              count={quantity}
+              onIncrement={() => onIncrement(id)}
+              onDecrement={() => onDecrement(id)}
+            />
+
             <RemoveButton>
               <Trash size={16} />
               <span>Remover</span>
@@ -34,7 +46,7 @@ export function CartCard({ data }: CartCardPropsType) {
         </div>
       </Info>
 
-      <Total>{price}</Total>
+      <Total>{priceTotal}</Total>
     </Container>
   );
 }

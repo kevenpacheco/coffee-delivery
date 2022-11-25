@@ -23,14 +23,128 @@ import {
   OrderTotalPriceContainer,
   ConfirmOrderButton,
 } from "./styles";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { ShoppingCartItemsType } from "../../@types/ShoppingCartItems";
+import { formatToDecimalWithFractionOfTwoDigits } from "../../utils/formatToDecimalWithFractionOfTwoDigits";
+import { transformCentsInReal } from "../../utils/transformCentsInReal";
+
+interface AddressType {
+  cep: string;
+  street: string;
+  number: string;
+  complement: string;
+  district: string;
+  city: string;
+  uf: string;
+}
+
+interface FormDataType {
+  address: AddressType;
+  paymentType: "CREDIT_CARD" | "DEBIT_CARD" | "MONEY" | null;
+  coffees: ShoppingCartItemsType[];
+}
 
 export function Checkout() {
+  const [formData, setFormData] = useState<FormDataType>({
+    address: {
+      cep: "",
+      street: "",
+      number: "",
+      complement: "",
+      district: "",
+      city: "",
+      uf: "",
+    },
+    paymentType: null,
+    coffees: [{ ...coffeesMock[9], quantity: 3 }],
+  });
+
+  function handleChangeInput({
+    target: { name, value },
+  }: ChangeEvent<HTMLInputElement>) {
+    setFormData((prevState) => ({
+      ...prevState,
+      address: {
+        ...prevState.address,
+        [name]: value,
+      },
+    }));
+  }
+
+  function handleSelectPayment({
+    target: { name, value },
+  }: ChangeEvent<HTMLInputElement>) {
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  }
+
+  function handleIncrementQuantityCoffeeById(coffeeId: string) {
+    setFormData((prevState) => {
+      const newCoffees = prevState.coffees.map((coffee) => {
+        if (coffee.id !== coffeeId) return coffee;
+
+        return {
+          ...coffee,
+          quantity: coffee.quantity + 1,
+        };
+      });
+
+      const newFormData = JSON.parse(JSON.stringify(prevState));
+
+      return {
+        ...newFormData,
+        coffees: newCoffees,
+      };
+    });
+  }
+
+  function handleDecrementQuantityCoffeeById(coffeeId: string) {
+    setFormData((prevState) => {
+      const newCoffees = prevState.coffees
+        .map((coffee) => {
+          if (coffee.id !== coffeeId) return coffee;
+
+          return {
+            ...coffee,
+            quantity: coffee.quantity - 1,
+          };
+        })
+        .filter((coffee) => coffee.quantity > 0);
+
+      const newFormData = JSON.parse(JSON.stringify(prevState));
+
+      return {
+        ...newFormData,
+        coffees: newCoffees,
+      };
+    });
+  }
+
+  function handleConfirmOrder(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+  }
+
+  const totalPriceItemsInCents = formData.coffees.reduce(
+    (acc, coffee) => acc + coffee.priceInCents * coffee.quantity,
+    0
+  );
+  const totalPriceItems = transformCentsInReal(totalPriceItemsInCents);
+
+  const deliveryFeeInCents = 350;
+  const deliveryFee = transformCentsInReal(deliveryFeeInCents);
+
+  const orderTotal = transformCentsInReal(
+    totalPriceItemsInCents + deliveryFeeInCents
+  );
+
   return (
     <>
-      <Header />
+      <Header quantityItemsInShoppingCart={formData.coffees.length} />
 
       <Container>
-        <Content>
+        <Content onSubmit={handleConfirmOrder}>
           <div>
             <h2>Complete seu pedido</h2>
 
@@ -44,13 +158,55 @@ export function Checkout() {
               </OrderDetailsHeader>
 
               <InputsContainer>
-                <Input placeholder="CEP" />
-                <Input placeholder="Rua" />
-                <Input placeholder="Número" />
-                <Input placeholder="Complemento" isOptional />
-                <Input placeholder="Bairro" />
-                <Input placeholder="Cidade" />
-                <Input placeholder="UF" />
+                <Input
+                  placeholder="CEP"
+                  value={formData.address.cep}
+                  name="cep"
+                  onChange={handleChangeInput}
+                />
+
+                <Input
+                  placeholder="Rua"
+                  value={formData.address.street}
+                  name="street"
+                  onChange={handleChangeInput}
+                />
+
+                <Input
+                  placeholder="Número"
+                  value={formData.address.number}
+                  name="number"
+                  onChange={handleChangeInput}
+                />
+
+                <Input
+                  placeholder="Complemento"
+                  value={formData.address.complement}
+                  name="complement"
+                  onChange={handleChangeInput}
+                  isOptional
+                />
+
+                <Input
+                  placeholder="Bairro"
+                  value={formData.address.district}
+                  name="district"
+                  onChange={handleChangeInput}
+                />
+
+                <Input
+                  placeholder="Cidade"
+                  value={formData.address.city}
+                  name="city"
+                  onChange={handleChangeInput}
+                />
+
+                <Input
+                  placeholder="UF"
+                  value={formData.address.uf}
+                  name="uf"
+                  onChange={handleChangeInput}
+                />
               </InputsContainer>
             </OrderDetailsCard>
 
@@ -67,17 +223,29 @@ export function Checkout() {
               </OrderDetailsHeader>
 
               <PaymentOptions>
-                <Select name="paymentType">
+                <Select
+                  name="paymentType"
+                  value="CREDIT_CARD"
+                  onChange={handleSelectPayment}
+                >
                   <CreditCard color={theme.color.purple[500]} />
                   <p>Cartão de crédito</p>
                 </Select>
 
-                <Select name="paymentType">
+                <Select
+                  name="paymentType"
+                  value="DEBIT_CARD"
+                  onChange={handleSelectPayment}
+                >
                   <Bank color={theme.color.purple[500]} />
                   <p>cartão de débito</p>
                 </Select>
 
-                <Select name="paymentType">
+                <Select
+                  name="paymentType"
+                  value="MONEY"
+                  onChange={handleSelectPayment}
+                >
                   <Money color={theme.color.purple[500]} />
                   <p>dinheiro</p>
                 </Select>
@@ -89,24 +257,31 @@ export function Checkout() {
             <h2>Cafés selecionados</h2>
 
             <OrderSummary>
-              <CartCard data={coffeesMock[4]} />
-
-              <Separator />
+              {formData.coffees.length > 0 && (
+                <>
+                  <CartCard
+                    data={formData.coffees[0]}
+                    onIncrement={handleIncrementQuantityCoffeeById}
+                    onDecrement={handleDecrementQuantityCoffeeById}
+                  />
+                  <Separator />
+                </>
+              )}
 
               <OrderTotalPriceContainer>
                 <div>
                   <p>Total de itens</p>
-                  <p>R$ 29,70</p>
+                  <p>{totalPriceItems}</p>
                 </div>
 
                 <div>
                   <p>Entrega</p>
-                  <p>R$ 3,50</p>
+                  <p>{deliveryFee}</p>
                 </div>
 
                 <div>
                   <p>Total</p>
-                  <p>R$ 33,20</p>
+                  <p>{orderTotal}</p>
                 </div>
               </OrderTotalPriceContainer>
 
