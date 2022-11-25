@@ -1,4 +1,5 @@
 import { ShoppingCart } from "phosphor-react";
+import { useState } from "react";
 import { CoffeeType } from "../../@types/Coffee";
 import { formatToDecimalWithFractionOfTwoDigits } from "../../utils/formatToDecimalWithFractionOfTwoDigits";
 import { CountButton } from "../Buttons/CountButton";
@@ -14,10 +15,25 @@ import {
 
 interface CoffeeCardPropsType {
   data: CoffeeType;
+  onAdd: (coffee: CoffeeType, quantity: number) => void;
 }
 
-export function CoffeeCard({ data }: CoffeeCardPropsType) {
+export function CoffeeCard({ data, onAdd }: CoffeeCardPropsType) {
   const { description, image, priceInCents, tags, title } = data;
+  const [quantity, setQuantity] = useState(0);
+
+  function handleIncrementQuantity() {
+    setQuantity((prevState) => prevState + 1);
+  }
+
+  function handleDecrementQuantity() {
+    setQuantity((prevState) => prevState - 1);
+  }
+
+  function handleAddToShoppingCart() {
+    onAdd(data, quantity);
+    setQuantity(0);
+  }
 
   const priceInReal = formatToDecimalWithFractionOfTwoDigits(
     priceInCents / 100
@@ -49,9 +65,13 @@ export function CoffeeCard({ data }: CoffeeCardPropsType) {
         </Price>
 
         <Actions>
-          <CountButton />
+          <CountButton
+            count={quantity}
+            onDecrement={handleDecrementQuantity}
+            onIncrement={handleIncrementQuantity}
+          />
 
-          <CartButton>
+          <CartButton type="button" onClick={handleAddToShoppingCart}>
             <ShoppingCart weight="fill" size={22} />
           </CartButton>
         </Actions>
