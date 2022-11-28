@@ -25,8 +25,8 @@ import {
 } from "./styles";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { ShoppingCartItemsType } from "../../@types/ShoppingCartItems";
-import { formatToDecimalWithFractionOfTwoDigits } from "../../utils/formatToDecimalWithFractionOfTwoDigits";
 import { transformCentsInReal } from "../../utils/transformCentsInReal";
+import { useNavigate } from "react-router-dom";
 
 interface AddressType {
   cep: string;
@@ -45,6 +45,7 @@ interface FormDataType {
 }
 
 export function Checkout() {
+  const navigation = useNavigate()
   const [formData, setFormData] = useState<FormDataType>({
     address: {
       cep: "",
@@ -124,6 +125,7 @@ export function Checkout() {
 
   function handleConfirmOrder(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    navigation('/success')
   }
 
   const totalPriceItemsInCents = formData.coffees.reduce(
