@@ -21,6 +21,10 @@ export const Content = styled.form`
   h2 {
     margin-bottom: 1rem;
   }
+
+  @media (max-width: 1080px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 export const OrderDetailsCard = styled.div`
@@ -61,12 +65,29 @@ export const InputsContainer = styled.div`
       grid-column: 2 / 4;
     }
   }
+
+  @media (max-width: 570px) {
+    grid-template-columns: 1fr 3.75rem;
+
+    > div {
+      :nth-child(2),
+      :nth-child(3),
+      :nth-child(4),
+      :nth-child(5) {
+        grid-column: 1 / 3;
+      }
+    }
+  }
 `;
 
 export const PaymentOptions = styled.div`
   display: flex;
   align-items: center;
   gap: .75rem;
+
+  @media (max-width: 710px) {
+    flex-direction: column;
+  }
 `;
 
 export const OrderSummary = styled.div`
