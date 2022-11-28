@@ -1,15 +1,14 @@
 import { createContext, ReactNode, useState } from "react";
+import { CoffeeType } from "../@types/Coffee";
 import { ShoppingCartItemsType } from "../@types/ShoppingCartItems";
 
 export interface ShoppingCartContextType {
   shoppingCartItems: ShoppingCartItemsType[];
-  handleIncrementShoppingCartItem: (
-    coffee: ShoppingCartItemsType,
-    quantity?: number
-  ) => void;
-  handleDecrementShoppingCartItem: (coffeeId: string) => void;
+  addCoffeeInShoppingCart: (coffee: CoffeeType, quantity: number) => void;
+  incrementShoppingCartItemById: (coffeeId: string) => void;
+  decrementShoppingCartItemById: (coffeeId: string) => void;
   resetShoppingCart: () => void;
-  deleteCoffeeById: (coffeeId: string) => void;
+  deleteCoffeeInShoppingCartById: (coffeeId: string) => void;
 }
 
 export const ShoppingCartContext = createContext({} as ShoppingCartContextType);
@@ -25,31 +24,28 @@ export function ShoppingCartContextProvider({
     ShoppingCartItemsType[]
   >([]);
 
-  function handleIncrementShoppingCartItem(
-    coffee: ShoppingCartItemsType,
-    quantity?: number
-  ) {
+  function addCoffeeInShoppingCart(coffee: CoffeeType, quantity: number) {
+    setShoppingCartItems((prevState) =>
+      prevState.concat({ ...coffee, quantity })
+    );
+  }
+
+  function incrementShoppingCartItemById(coffeeId: string) {
     setShoppingCartItems((prevState) => {
       const indexCurrentCoffee = prevState.findIndex(
-        ({ id }) => id === coffee.id
+        ({ id }) => id === coffeeId
       );
-
-      const quantityToAdd = quantity || 1;
-
-      if (indexCurrentCoffee < 0) {
-        return prevState.concat({ ...coffee, quantity: quantityToAdd });
-      }
 
       const newShoppingCartItems: ShoppingCartItemsType[] = [
         ...JSON.parse(JSON.stringify(prevState)),
       ];
-      newShoppingCartItems[indexCurrentCoffee].quantity += quantityToAdd;
+      newShoppingCartItems[indexCurrentCoffee].quantity += 1;
 
       return newShoppingCartItems;
     });
   }
 
-  function handleDecrementShoppingCartItem(coffeeId: string) {
+  function decrementShoppingCartItemById(coffeeId: string) {
     setShoppingCartItems((prevState) => {
       const newCoffees = prevState
         .map((coffee) => {
@@ -70,7 +66,7 @@ export function ShoppingCartContextProvider({
     setShoppingCartItems([]);
   }
 
-  function deleteCoffeeById(coffeeId: string) {
+  function deleteCoffeeInShoppingCartById(coffeeId: string) {
     setShoppingCartItems((prevState) =>
       prevState.filter((coffee) => coffee.id !== coffeeId)
     );
@@ -80,10 +76,11 @@ export function ShoppingCartContextProvider({
     <ShoppingCartContext.Provider
       value={{
         shoppingCartItems,
-        handleIncrementShoppingCartItem,
-        handleDecrementShoppingCartItem,
+        addCoffeeInShoppingCart,
+        incrementShoppingCartItemById,
+        decrementShoppingCartItemById,
         resetShoppingCart,
-        deleteCoffeeById,
+        deleteCoffeeInShoppingCartById,
       }}
     >
       {children}

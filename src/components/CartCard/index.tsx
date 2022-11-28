@@ -13,9 +13,9 @@ interface CartCardPropsType {
 export function CartCard({ data }: CartCardPropsType) {
   const { image, title, priceInCents, quantity, id } = data;
   const {
-    handleDecrementShoppingCartItem,
-    handleIncrementShoppingCartItem,
-    deleteCoffeeById,
+    decrementShoppingCartItemById,
+    incrementShoppingCartItemById,
+    deleteCoffeeInShoppingCartById,
   } = useContext(ShoppingCartContext);
 
   const priceTotal = transformCentsInReal(priceInCents * quantity);
@@ -32,11 +32,14 @@ export function CartCard({ data }: CartCardPropsType) {
             <CountButton
               size="sm"
               count={quantity}
-              onIncrement={() => handleIncrementShoppingCartItem(data)}
-              onDecrement={() => handleDecrementShoppingCartItem(id)}
+              onIncrement={() => incrementShoppingCartItemById(id)}
+              onDecrement={() => decrementShoppingCartItemById(id)}
             />
 
-            <RemoveButton type="button" onClick={() => deleteCoffeeById(id)}>
+            <RemoveButton
+              type="button"
+              onClick={() => deleteCoffeeInShoppingCartById(id)}
+            >
               <Trash size={16} />
               <span>Remover</span>
             </RemoveButton>
