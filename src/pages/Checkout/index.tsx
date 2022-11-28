@@ -10,7 +10,6 @@ import { Header } from "../../components/Header";
 import Input from "../../components/Input";
 import { Select } from "../../components/Select";
 import { theme } from "../../styles/theme";
-import { coffees as coffeesMock } from "../../mocks/coffees";
 import {
   OrderDetailsCard,
   OrderDetailsHeader,
@@ -23,10 +22,10 @@ import {
   OrderTotalPriceContainer,
   ConfirmOrderButton,
 } from "./styles";
-import { ChangeEvent, FormEvent, useState } from "react";
-import { ShoppingCartItemsType } from "../../@types/ShoppingCartItems";
+import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { transformCentsInReal } from "../../utils/transformCentsInReal";
 import { useNavigate } from "react-router-dom";
+import { ShoppingCartContext } from "../../contexts/ShoppingCartContext";
 
 interface AddressType {
   cep: string;
@@ -41,11 +40,12 @@ interface AddressType {
 interface FormDataType {
   address: AddressType;
   paymentType: "CREDIT_CARD" | "DEBIT_CARD" | "MONEY" | null;
-  coffees: ShoppingCartItemsType[];
 }
 
 export function Checkout() {
-  const navigation = useNavigate()
+  const navigation = useNavigate();
+  const { shoppingCartItems, resetShoppingCart } =
+    useContext(ShoppingCartContext);
   const [formData, setFormData] = useState<FormDataType>({
     address: {
       cep: "",
@@ -57,7 +57,6 @@ export function Checkout() {
       uf: "",
     },
     paymentType: null,
-    coffees: [{ ...coffeesMock[9], quantity: 3 }],
   });
 
   function handleChangeInput({
@@ -81,54 +80,13 @@ export function Checkout() {
     }));
   }
 
-  function handleIncrementQuantityCoffeeById(coffeeId: string) {
-    setFormData((prevState) => {
-      const newCoffees = prevState.coffees.map((coffee) => {
-        if (coffee.id !== coffeeId) return coffee;
-
-        return {
-          ...coffee,
-          quantity: coffee.quantity + 1,
-        };
-      });
-
-      const newFormData = JSON.parse(JSON.stringify(prevState));
-
-      return {
-        ...newFormData,
-        coffees: newCoffees,
-      };
-    });
-  }
-
-  function handleDecrementQuantityCoffeeById(coffeeId: string) {
-    setFormData((prevState) => {
-      const newCoffees = prevState.coffees
-        .map((coffee) => {
-          if (coffee.id !== coffeeId) return coffee;
-
-          return {
-            ...coffee,
-            quantity: coffee.quantity - 1,
-          };
-        })
-        .filter((coffee) => coffee.quantity > 0);
-
-      const newFormData = JSON.parse(JSON.stringify(prevState));
-
-      return {
-        ...newFormData,
-        coffees: newCoffees,
-      };
-    });
-  }
-
   function handleConfirmOrder(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    navigation('/success')
+    navigation("/success");
+    resetShoppingCart();
   }
 
-  const totalPriceItemsInCents = formData.coffees.reduce(
+  const totalPriceItemsInCents = shoppingCartItems.reduce(
     (acc, coffee) => acc + coffee.priceInCents * coffee.quantity,
     0
   );
@@ -143,7 +101,7 @@ export function Checkout() {
 
   return (
     <>
-      <Header quantityItemsInShoppingCart={formData.coffees.length} />
+      <Header />
 
       <Container>
         <Content onSubmit={handleConfirmOrder}>
@@ -259,16 +217,12 @@ export function Checkout() {
             <h2>Cafés selecionados</h2>
 
             <OrderSummary>
-              {formData.coffees.length > 0 && (
+              {shoppingCartItems.map((item) => (
                 <>
-                  <CartCard
-                    data={formData.coffees[0]}
-                    onIncrement={handleIncrementQuantityCoffeeById}
-                    onDecrement={handleDecrementQuantityCoffeeById}
-                  />
+                  <CartCard data={item} />
                   <Separator />
                 </>
-              )}
+              ))}
 
               <OrderTotalPriceContainer>
                 <div>

@@ -12,40 +12,11 @@ import { coffees as coffeesMock } from "../../mocks/coffees";
 import { Header } from "../../components/Header";
 import introIMG from "../../assets/intro-image.png";
 import { CoffeeCard } from "../../components/CoffeeCard";
-import { useState } from "react";
-import { CoffeeType } from "../../@types/Coffee";
-import { ShoppingCartItemsType } from "../../@types/ShoppingCartItems";
 
 export function Home() {
-  const [shoppingCartItems, setShoppingCartItems] = useState<
-    ShoppingCartItemsType[]
-  >([]);
-
-  function handleIncrementShoppingCartItem(
-    coffee: CoffeeType,
-    quantity: number
-  ) {
-    setShoppingCartItems((prevState) => {
-      const indexCurrentCoffee = prevState.findIndex(
-        ({ id }) => id === coffee.id
-      );
-
-      if (indexCurrentCoffee < 0) {
-        return prevState.concat({ ...coffee, quantity });
-      }
-
-      const newShoppingCartItems: ShoppingCartItemsType[] = [
-        ...JSON.parse(JSON.stringify(prevState)),
-      ];
-      newShoppingCartItems[indexCurrentCoffee].quantity += quantity;
-
-      return newShoppingCartItems;
-    });
-  }
-
   return (
     <Container>
-      <Header quantityItemsInShoppingCart={shoppingCartItems.length} />
+      <Header />
 
       <IntroContainer>
         <div>
@@ -103,11 +74,7 @@ export function Home() {
           <h2>Nossos cafés</h2>
           <CoffeeList>
             {coffeesMock.map((coffee) => (
-              <CoffeeCard
-                key={coffee.id}
-                data={coffee}
-                onAdd={handleIncrementShoppingCartItem}
-              />
+              <CoffeeCard key={coffee.id} data={coffee} />
             ))}
           </CoffeeList>
         </div>
