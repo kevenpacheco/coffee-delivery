@@ -2,22 +2,18 @@ import { ShoppingCart, Timer, Package, Coffee } from "phosphor-react";
 import {
   CoffeeList,
   CoffeesContainer,
-  Container,
   DescriptionItem,
   DescriptionsContainer,
   IntroContainer,
   TitleContainer,
 } from "./styles";
 import { coffees as coffeesMock } from "../../mocks/coffees";
-import { Header } from "../../components/Header";
 import introIMG from "../../assets/intro-image.png";
 import { CoffeeCard } from "../../components/CoffeeCard";
 
 export function Home() {
   return (
-    <Container>
-      <Header />
-
+    <>
       <IntroContainer>
         <div>
           <div>
@@ -79,6 +75,6 @@ export function Home() {
           </CoffeeList>
         </div>
       </CoffeesContainer>
-    </Container>
+    </>
   );
 }

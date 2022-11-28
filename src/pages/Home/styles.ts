@@ -1,12 +1,6 @@
 import styled from "styled-components";
 import bgIntroImg from '../../assets/intro-background.png'
 
-export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
 export const IntroContainer = styled.section`
   width: 100%;
   display: grid;
@@ -91,11 +85,11 @@ export const DescriptionItem = styled.div`
 `;
 
 export const CoffeesContainer = styled.section`
-  width: ${({theme}) => theme.layout.width};
-  padding: 2rem 0;
-
+  padding: ${({theme}) => `2rem ${theme.layout.paddingX}`};
+  
   & > div {
-    padding: ${({theme}) => `0 ${theme.layout.paddingX}`}
+    width: ${({theme}) => theme.layout.width};
+    margin: 0 auto;
   }
 
   h2 {

@@ -6,7 +6,6 @@ import {
   Money,
 } from "phosphor-react";
 import { CartCard } from "../../components/CartCard";
-import { Header } from "../../components/Header";
 import Input from "../../components/Input";
 import { Select } from "../../components/Select";
 import { theme } from "../../styles/theme";
@@ -100,152 +99,148 @@ export function Checkout() {
   );
 
   return (
-    <>
-      <Header />
+    <Container>
+      <Content onSubmit={handleConfirmOrder}>
+        <div>
+          <h2>Complete seu pedido</h2>
 
-      <Container>
-        <Content onSubmit={handleConfirmOrder}>
-          <div>
-            <h2>Complete seu pedido</h2>
+          <OrderDetailsCard>
+            <OrderDetailsHeader>
+              <MapPinLine size={22} color={theme.color.yellow[700]} />
+              <div>
+                <p>Endereço de Entrega</p>
+                <p>Informe o endereço onde deseja receber seu pedido</p>
+              </div>
+            </OrderDetailsHeader>
 
-            <OrderDetailsCard>
-              <OrderDetailsHeader>
-                <MapPinLine size={22} color={theme.color.yellow[700]} />
-                <div>
-                  <p>Endereço de Entrega</p>
-                  <p>Informe o endereço onde deseja receber seu pedido</p>
-                </div>
-              </OrderDetailsHeader>
+            <InputsContainer>
+              <Input
+                placeholder="CEP"
+                value={formData.address.cep}
+                name="cep"
+                onChange={handleChangeInput}
+              />
 
-              <InputsContainer>
-                <Input
-                  placeholder="CEP"
-                  value={formData.address.cep}
-                  name="cep"
-                  onChange={handleChangeInput}
-                />
+              <Input
+                placeholder="Rua"
+                value={formData.address.street}
+                name="street"
+                onChange={handleChangeInput}
+              />
 
-                <Input
-                  placeholder="Rua"
-                  value={formData.address.street}
-                  name="street"
-                  onChange={handleChangeInput}
-                />
+              <Input
+                placeholder="Número"
+                value={formData.address.number}
+                name="number"
+                onChange={handleChangeInput}
+              />
 
-                <Input
-                  placeholder="Número"
-                  value={formData.address.number}
-                  name="number"
-                  onChange={handleChangeInput}
-                />
+              <Input
+                placeholder="Complemento"
+                value={formData.address.complement}
+                name="complement"
+                onChange={handleChangeInput}
+                isOptional
+              />
 
-                <Input
-                  placeholder="Complemento"
-                  value={formData.address.complement}
-                  name="complement"
-                  onChange={handleChangeInput}
-                  isOptional
-                />
+              <Input
+                placeholder="Bairro"
+                value={formData.address.district}
+                name="district"
+                onChange={handleChangeInput}
+              />
 
-                <Input
-                  placeholder="Bairro"
-                  value={formData.address.district}
-                  name="district"
-                  onChange={handleChangeInput}
-                />
+              <Input
+                placeholder="Cidade"
+                value={formData.address.city}
+                name="city"
+                onChange={handleChangeInput}
+              />
 
-                <Input
-                  placeholder="Cidade"
-                  value={formData.address.city}
-                  name="city"
-                  onChange={handleChangeInput}
-                />
+              <Input
+                placeholder="UF"
+                value={formData.address.uf}
+                name="uf"
+                onChange={handleChangeInput}
+              />
+            </InputsContainer>
+          </OrderDetailsCard>
 
-                <Input
-                  placeholder="UF"
-                  value={formData.address.uf}
-                  name="uf"
-                  onChange={handleChangeInput}
-                />
-              </InputsContainer>
-            </OrderDetailsCard>
+          <OrderDetailsCard>
+            <OrderDetailsHeader>
+              <CurrencyDollar size={22} color={theme.color.purple[500]} />
+              <div>
+                <p>Pagamento</p>
+                <p>
+                  O pagamento é feito na entrega. Escolha a forma que deseja
+                  pagar
+                </p>
+              </div>
+            </OrderDetailsHeader>
 
-            <OrderDetailsCard>
-              <OrderDetailsHeader>
-                <CurrencyDollar size={22} color={theme.color.purple[500]} />
-                <div>
-                  <p>Pagamento</p>
-                  <p>
-                    O pagamento é feito na entrega. Escolha a forma que deseja
-                    pagar
-                  </p>
-                </div>
-              </OrderDetailsHeader>
+            <PaymentOptions>
+              <Select
+                name="paymentType"
+                value="CREDIT_CARD"
+                onChange={handleSelectPayment}
+              >
+                <CreditCard color={theme.color.purple[500]} />
+                <p>Cartão de crédito</p>
+              </Select>
 
-              <PaymentOptions>
-                <Select
-                  name="paymentType"
-                  value="CREDIT_CARD"
-                  onChange={handleSelectPayment}
-                >
-                  <CreditCard color={theme.color.purple[500]} />
-                  <p>Cartão de crédito</p>
-                </Select>
+              <Select
+                name="paymentType"
+                value="DEBIT_CARD"
+                onChange={handleSelectPayment}
+              >
+                <Bank color={theme.color.purple[500]} />
+                <p>cartão de débito</p>
+              </Select>
 
-                <Select
-                  name="paymentType"
-                  value="DEBIT_CARD"
-                  onChange={handleSelectPayment}
-                >
-                  <Bank color={theme.color.purple[500]} />
-                  <p>cartão de débito</p>
-                </Select>
+              <Select
+                name="paymentType"
+                value="MONEY"
+                onChange={handleSelectPayment}
+              >
+                <Money color={theme.color.purple[500]} />
+                <p>dinheiro</p>
+              </Select>
+            </PaymentOptions>
+          </OrderDetailsCard>
+        </div>
 
-                <Select
-                  name="paymentType"
-                  value="MONEY"
-                  onChange={handleSelectPayment}
-                >
-                  <Money color={theme.color.purple[500]} />
-                  <p>dinheiro</p>
-                </Select>
-              </PaymentOptions>
-            </OrderDetailsCard>
-          </div>
+        <div>
+          <h2>Cafés selecionados</h2>
 
-          <div>
-            <h2>Cafés selecionados</h2>
+          <OrderSummary>
+            {shoppingCartItems.map((item) => (
+              <>
+                <CartCard data={item} />
+                <Separator />
+              </>
+            ))}
 
-            <OrderSummary>
-              {shoppingCartItems.map((item) => (
-                <>
-                  <CartCard data={item} />
-                  <Separator />
-                </>
-              ))}
+            <OrderTotalPriceContainer>
+              <div>
+                <p>Total de itens</p>
+                <p>{totalPriceItems}</p>
+              </div>
 
-              <OrderTotalPriceContainer>
-                <div>
-                  <p>Total de itens</p>
-                  <p>{totalPriceItems}</p>
-                </div>
+              <div>
+                <p>Entrega</p>
+                <p>{deliveryFee}</p>
+              </div>
 
-                <div>
-                  <p>Entrega</p>
-                  <p>{deliveryFee}</p>
-                </div>
+              <div>
+                <p>Total</p>
+                <p>{orderTotal}</p>
+              </div>
+            </OrderTotalPriceContainer>
 
-                <div>
-                  <p>Total</p>
-                  <p>{orderTotal}</p>
-                </div>
-              </OrderTotalPriceContainer>
-
-              <ConfirmOrderButton>confirmar pedido</ConfirmOrderButton>
-            </OrderSummary>
-          </div>
-        </Content>
-      </Container>
-    </>
+            <ConfirmOrderButton>confirmar pedido</ConfirmOrderButton>
+          </OrderSummary>
+        </div>
+      </Content>
+    </Container>
   );
 }

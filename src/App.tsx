@@ -4,6 +4,7 @@ import { theme } from "./styles/theme";
 import { AppRoutes } from "./routes";
 import { BrowserRouter } from "react-router-dom";
 import { ShoppingCartContextProvider } from "./contexts/ShoppingCartContext";
+import { Header } from "./components/Header";
 
 export function App() {
   return (
@@ -11,6 +12,7 @@ export function App() {
       <GlobalStyle />
       <BrowserRouter>
         <ShoppingCartContextProvider>
+          <Header />
           <AppRoutes />
         </ShoppingCartContextProvider>
       </BrowserRouter>
