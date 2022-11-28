@@ -25,9 +25,20 @@ export function ShoppingCartContextProvider({
   >([]);
 
   function addCoffeeInShoppingCart(coffee: CoffeeType, quantity: number) {
-    setShoppingCartItems((prevState) =>
-      prevState.concat({ ...coffee, quantity })
-    );
+    setShoppingCartItems((prevState) => {
+      const currentCoffeeIndex = prevState.findIndex(
+        ({ id }) => id === coffee.id
+      );
+
+      if (currentCoffeeIndex < 0) {
+        return prevState.concat({ ...coffee, quantity });
+      }
+
+      const newShoppingCartItems = JSON.parse(JSON.stringify(prevState));
+      newShoppingCartItems[currentCoffeeIndex].quantity += quantity;
+
+      return newShoppingCartItems;
+    });
   }
 
   function incrementShoppingCartItemById(coffeeId: string) {
