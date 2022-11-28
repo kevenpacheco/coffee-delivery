@@ -21,7 +21,7 @@ import {
   OrderTotalPriceContainer,
   ConfirmOrderButton,
 } from "./styles";
-import { ChangeEvent, FormEvent, useContext, useState } from "react";
+import { ChangeEvent, FormEvent, Fragment, useContext, useState } from "react";
 import { transformCentsInReal } from "../../utils/transformCentsInReal";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCartContext } from "../../contexts/ShoppingCartContext";
@@ -214,10 +214,10 @@ export function Checkout() {
 
           <OrderSummary>
             {shoppingCartItems.map((item) => (
-              <>
+              <Fragment key={item.id}>
                 <CartCard data={item} />
                 <Separator />
-              </>
+              </Fragment>
             ))}
 
             <OrderTotalPriceContainer>
