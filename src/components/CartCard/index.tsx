@@ -12,8 +12,11 @@ interface CartCardPropsType {
 
 export function CartCard({ data }: CartCardPropsType) {
   const { image, title, priceInCents, quantity, id } = data;
-  const { handleDecrementShoppingCartItem, handleIncrementShoppingCartItem } =
-    useContext(ShoppingCartContext);
+  const {
+    handleDecrementShoppingCartItem,
+    handleIncrementShoppingCartItem,
+    deleteCoffeeById,
+  } = useContext(ShoppingCartContext);
 
   const priceTotal = `R$ ${formatToDecimalWithFractionOfTwoDigits(
     (priceInCents * quantity) / 100
@@ -35,7 +38,7 @@ export function CartCard({ data }: CartCardPropsType) {
               onDecrement={() => handleDecrementShoppingCartItem(id)}
             />
 
-            <RemoveButton>
+            <RemoveButton type="button" onClick={() => deleteCoffeeById(id)}>
               <Trash size={16} />
               <span>Remover</span>
             </RemoveButton>

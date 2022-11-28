@@ -3,9 +3,13 @@ import { ShoppingCartItemsType } from "../@types/ShoppingCartItems";
 
 export interface ShoppingCartContextType {
   shoppingCartItems: ShoppingCartItemsType[];
-  handleIncrementShoppingCartItem: (coffee: ShoppingCartItemsType, quantity?: number) => void;
+  handleIncrementShoppingCartItem: (
+    coffee: ShoppingCartItemsType,
+    quantity?: number
+  ) => void;
   handleDecrementShoppingCartItem: (coffeeId: string) => void;
   resetShoppingCart: () => void;
+  deleteCoffeeById: (coffeeId: string) => void;
 }
 
 export const ShoppingCartContext = createContext({} as ShoppingCartContextType);
@@ -21,7 +25,10 @@ export function ShoppingCartContextProvider({
     ShoppingCartItemsType[]
   >([]);
 
-  function handleIncrementShoppingCartItem(coffee: ShoppingCartItemsType, quantity?: number) {
+  function handleIncrementShoppingCartItem(
+    coffee: ShoppingCartItemsType,
+    quantity?: number
+  ) {
     setShoppingCartItems((prevState) => {
       const indexCurrentCoffee = prevState.findIndex(
         ({ id }) => id === coffee.id
@@ -60,7 +67,13 @@ export function ShoppingCartContextProvider({
   }
 
   function resetShoppingCart() {
-    setShoppingCartItems([])
+    setShoppingCartItems([]);
+  }
+
+  function deleteCoffeeById(coffeeId: string) {
+    setShoppingCartItems((prevState) =>
+      prevState.filter((coffee) => coffee.id !== coffeeId)
+    );
   }
 
   return (
@@ -69,7 +82,8 @@ export function ShoppingCartContextProvider({
         shoppingCartItems,
         handleIncrementShoppingCartItem,
         handleDecrementShoppingCartItem,
-        resetShoppingCart
+        resetShoppingCart,
+        deleteCoffeeById,
       }}
     >
       {children}
