@@ -133,6 +133,7 @@ export function Checkout() {
                 name="cep"
                 onChange={handleChangeInput}
                 maxLength={9}
+                required
               />
 
               <Input
@@ -140,6 +141,7 @@ export function Checkout() {
                 value={formData.address.street}
                 name="street"
                 onChange={handleChangeInput}
+                required
               />
 
               <Input
@@ -147,6 +149,7 @@ export function Checkout() {
                 value={formData.address.number}
                 name="number"
                 onChange={handleChangeInput}
+                required
               />
 
               <Input
@@ -162,6 +165,7 @@ export function Checkout() {
                 value={formData.address.district}
                 name="district"
                 onChange={handleChangeInput}
+                required
               />
 
               <Input
@@ -169,6 +173,7 @@ export function Checkout() {
                 value={formData.address.city}
                 name="city"
                 onChange={handleChangeInput}
+                required
               />
 
               <Input
@@ -177,6 +182,7 @@ export function Checkout() {
                 name="uf"
                 onChange={handleChangeInput}
                 maxLength={2}
+                required
               />
             </InputsContainer>
           </OrderDetailsCard>
@@ -198,6 +204,7 @@ export function Checkout() {
                 name="paymentType"
                 value="CREDIT_CARD"
                 onChange={handleSelectPayment}
+                required
               >
                 <CreditCard color={theme.color.purple[500]} />
                 <p>Cartão de crédito</p>
@@ -207,6 +214,7 @@ export function Checkout() {
                 name="paymentType"
                 value="DEBIT_CARD"
                 onChange={handleSelectPayment}
+                required
               >
                 <Bank color={theme.color.purple[500]} />
                 <p>cartão de débito</p>
@@ -216,6 +224,7 @@ export function Checkout() {
                 name="paymentType"
                 value="MONEY"
                 onChange={handleSelectPayment}
+                required
               >
                 <Money color={theme.color.purple[500]} />
                 <p>dinheiro</p>
