@@ -2,7 +2,7 @@ import { Trash } from "phosphor-react";
 import { useContext } from "react";
 import { ShoppingCartItemsType } from "../../@types/ShoppingCartItems";
 import { ShoppingCartContext } from "../../contexts/ShoppingCartContext";
-import { formatToDecimalWithFractionOfTwoDigits } from "../../utils/formatToDecimalWithFractionOfTwoDigits";
+import { transformCentsInReal } from "../../utils/transformCentsInReal";
 import { CountButton } from "../Buttons/CountButton";
 import { Actions, Container, Info, RemoveButton, Total } from "./styles";
 
@@ -18,9 +18,7 @@ export function CartCard({ data }: CartCardPropsType) {
     deleteCoffeeById,
   } = useContext(ShoppingCartContext);
 
-  const priceTotal = `R$ ${formatToDecimalWithFractionOfTwoDigits(
-    (priceInCents * quantity) / 100
-  )}`;
+  const priceTotal = transformCentsInReal(priceInCents * quantity);
 
   return (
     <Container>

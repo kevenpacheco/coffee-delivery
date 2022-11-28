@@ -2,7 +2,6 @@ import { ShoppingCart } from "phosphor-react";
 import { useContext, useState } from "react";
 import { ShoppingCartItemsType } from "../../@types/ShoppingCartItems";
 import { ShoppingCartContext } from "../../contexts/ShoppingCartContext";
-import { formatToDecimalWithFractionOfTwoDigits } from "../../utils/formatToDecimalWithFractionOfTwoDigits";
 import { CountButton } from "../Buttons/CountButton";
 import {
   Actions,
@@ -36,7 +35,10 @@ export function CoffeeCard({ data }: CoffeeCardPropsType) {
     setQuantity(0);
   }
 
-  const priceInReal = formatToDecimalWithFractionOfTwoDigits(
+  const priceInReal = new Intl.NumberFormat("pt-BR", {
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 2,
+  }).format(
     priceInCents / 100
   );
 
