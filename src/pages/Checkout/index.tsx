@@ -25,6 +25,7 @@ import { ChangeEvent, FormEvent, Fragment, useContext, useState } from "react";
 import { transformCentsInReal } from "../../utils/transformCentsInReal";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCartContext } from "../../contexts/ShoppingCartContext";
+import { cepMask, UFMask } from "../../utils/inputMasks";
 
 interface AddressType {
   cep: string;
@@ -61,13 +62,25 @@ export function Checkout() {
   function handleChangeInput({
     target: { name, value },
   }: ChangeEvent<HTMLInputElement>) {
-    setFormData((prevState) => ({
-      ...prevState,
-      address: {
-        ...prevState.address,
-        [name]: value,
-      },
-    }));
+    setFormData((prevState) => {
+      let newValue = value;
+
+      if (name === "cep") {
+        newValue = cepMask.applyMask(value);
+      }
+
+      if (name === "uf") {
+        newValue = UFMask.applyMask(value);
+      }
+
+      return {
+        ...prevState,
+        address: {
+          ...prevState.address,
+          [name]: newValue,
+        },
+      };
+    });
   }
 
   function handleSelectPayment({
@@ -119,6 +132,7 @@ export function Checkout() {
                 value={formData.address.cep}
                 name="cep"
                 onChange={handleChangeInput}
+                maxLength={9}
               />
 
               <Input
@@ -162,6 +176,7 @@ export function Checkout() {
                 value={formData.address.uf}
                 name="uf"
                 onChange={handleChangeInput}
+                maxLength={2}
               />
             </InputsContainer>
           </OrderDetailsCard>
