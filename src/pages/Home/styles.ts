@@ -44,6 +44,10 @@ export const DescriptionsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(2, max-content);
   gap: 1.25rem 2.5rem;
+
+  @media (max-width: 650px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 export const DescriptionItem = styled.div`
