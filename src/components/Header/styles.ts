@@ -9,6 +9,7 @@ export const Container = styled.div`
   position: sticky;
   top: 0;
   background: ${({theme}) => theme.color.base.background};
+  z-index: 99;
 `;
 
 export const Content = styled.header`
