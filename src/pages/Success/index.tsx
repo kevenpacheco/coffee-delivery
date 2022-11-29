@@ -7,8 +7,19 @@ import {
   Title,
 } from "./styles";
 import { CurrencyDollar, MapPin, Timer } from "phosphor-react";
+import { OrderDetailsContext } from "../../contexts/OrderDetailsContext";
+import { useContext } from "react";
+
+const PAYMENT_MAPPER = {
+  CREDIT_CARD: "Cartão de Crédito",
+  DEBIT_CARD: "Cartão de Débito",
+  MONEY: "Dinheiro",
+};
 
 export function Success() {
+  const { address, paymentType } = useContext(OrderDetailsContext);
+  const { street, number, city, district, uf } = address;
+
   return (
     <Container>
       <div>
@@ -26,9 +37,9 @@ export function Success() {
 
               <div>
                 <p>
-                  Entrega em <strong>Rua João Daniel Martinelli, 102</strong>
+                  Entrega em <strong>{`${street}, ${number}`}</strong>
                 </p>
-                <p>Farrapos - Porto Alegre, RS</p>
+                <p>{`${district} - ${city}, ${uf}`}</p>
               </div>
             </DetailContainer>
 
@@ -45,18 +56,20 @@ export function Success() {
               </div>
             </DetailContainer>
 
-            <DetailContainer>
-              <div>
-                <CurrencyDollar weight="fill" />
-              </div>
+            {paymentType ? (
+              <DetailContainer>
+                <div>
+                  <CurrencyDollar weight="fill" />
+                </div>
 
-              <div>
-                <p>Pagamento na entrega</p>
-                <p>
-                  <strong>Cartão de Crédito</strong>
-                </p>
-              </div>
-            </DetailContainer>
+                <div>
+                  <p>Pagamento na entrega</p>
+                  <p>
+                    <strong>{PAYMENT_MAPPER[paymentType]}</strong>
+                  </p>
+                </div>
+              </DetailContainer>
+            ) : null}
           </DetailsContainer>
         </div>
 
