@@ -97,7 +97,7 @@ export function Checkout() {
 
             <InputsContainer>
               <Input
-                placeholder="CEP"
+                label="CEP"
                 value={address.cep}
                 name="cep"
                 onChange={handleChangeInput}
@@ -106,7 +106,7 @@ export function Checkout() {
               />
 
               <Input
-                placeholder="Rua"
+                label="Rua"
                 value={address.street}
                 name="street"
                 onChange={handleChangeInput}
@@ -114,7 +114,7 @@ export function Checkout() {
               />
 
               <Input
-                placeholder="Número"
+                label="Número"
                 value={address.number}
                 name="number"
                 onChange={handleChangeInput}
@@ -122,7 +122,7 @@ export function Checkout() {
               />
 
               <Input
-                placeholder="Complemento"
+                label="Complemento"
                 value={address.complement}
                 name="complement"
                 onChange={handleChangeInput}
@@ -130,7 +130,7 @@ export function Checkout() {
               />
 
               <Input
-                placeholder="Bairro"
+                label="Bairro"
                 value={address.district}
                 name="district"
                 onChange={handleChangeInput}
@@ -138,7 +138,7 @@ export function Checkout() {
               />
 
               <Input
-                placeholder="Cidade"
+                label="Cidade"
                 value={address.city}
                 name="city"
                 onChange={handleChangeInput}
@@ -146,7 +146,7 @@ export function Checkout() {
               />
 
               <Input
-                placeholder="UF"
+                label="UF"
                 value={address.uf}
                 name="uf"
                 onChange={handleChangeInput}
