@@ -76,7 +76,7 @@ export function CoffeeCard({ data }: CoffeeCardPropsType) {
             onIncrement={handleIncrementQuantity}
           />
 
-          <CartButton type="button" onClick={handleAddToShoppingCart}>
+          <CartButton type="button" onClick={handleAddToShoppingCart} disabled={quantity < 1}>
             <ShoppingCart weight="fill" size={22} />
           </CartButton>
         </Actions>

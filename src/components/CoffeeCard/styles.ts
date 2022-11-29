@@ -82,7 +82,12 @@ export const CartButton = styled.button`
   color: ${({theme}) => theme.color.base.card};
   transition: .3s;
 
-  :hover {
+  :hover:not(:disabled) {
     background: ${({theme}) => theme.color.purple[500]};
+  }
+
+  :disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 `;
