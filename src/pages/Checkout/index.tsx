@@ -170,6 +170,7 @@ export function Checkout() {
 
             <PaymentOptions>
               <Select
+                checked={paymentType === 'CREDIT_CARD'}
                 name="paymentType"
                 value="CREDIT_CARD"
                 onChange={handleSelectPayment}
@@ -180,6 +181,7 @@ export function Checkout() {
               </Select>
 
               <Select
+                checked={paymentType === 'DEBIT_CARD'}
                 name="paymentType"
                 value="DEBIT_CARD"
                 onChange={handleSelectPayment}
@@ -190,6 +192,7 @@ export function Checkout() {
               </Select>
 
               <Select
+                checked={paymentType === 'MONEY'}
                 name="paymentType"
                 value="MONEY"
                 onChange={handleSelectPayment}
