@@ -4,9 +4,15 @@ import logoSVG from "../../assets/logo.svg";
 import { NavLink } from "react-router-dom";
 import { ShoppingCartContext } from "../../contexts/ShoppingCartContext";
 import { useContext } from "react";
+import { OrderDetailsContext } from "../../contexts/OrderDetailsContext";
 
 export function Header() {
   const { shoppingCartItems } = useContext(ShoppingCartContext);
+  const { address } = useContext(OrderDetailsContext);
+  const { city, uf } = address;
+
+  const addressSummary = `${city}, ${uf}`;
+
   return (
     <Container>
       <Content>
@@ -22,7 +28,7 @@ export function Header() {
         <div>
           <Location>
             <MapPin weight="fill" size={22} />
-            <p>Porto Alegre, RS</p>
+            {city && uf ? <p>{addressSummary}</p> : null}
           </Location>
 
           <NavLink to="/checkout">
