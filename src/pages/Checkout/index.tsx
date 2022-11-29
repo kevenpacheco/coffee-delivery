@@ -79,8 +79,8 @@ export function Checkout() {
   );
   const totalPriceItems = transformCentsInReal(totalPriceItemsInCents);
 
-  const deliveryFeeInCents = 350;
-  const deliveryFee = transformCentsInReal(deliveryFeeInCents);
+  const deliveryFeeInCents = checkIfAddressHasBeenFilledIn() ? 350 : 0;
+  const deliveryFee =  deliveryFeeInCents ? transformCentsInReal(deliveryFeeInCents) : '';
 
   const orderTotal = transformCentsInReal(
     totalPriceItemsInCents + deliveryFeeInCents
@@ -228,7 +228,7 @@ export function Checkout() {
                 <p>{totalPriceItems}</p>
               </div>
 
-              {checkIfAddressHasBeenFilledIn() && (
+              {deliveryFee && (
                 <div>
                   <p>Entrega</p>
                   <p>{deliveryFee}</p>
