@@ -25,84 +25,35 @@ import { ChangeEvent, FormEvent, Fragment, useContext, useState } from "react";
 import { transformCentsInReal } from "../../utils/transformCentsInReal";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCartContext } from "../../contexts/ShoppingCartContext";
-import { cepMask, UFMask } from "../../utils/inputMasks";
-import { toast } from 'react-toastify';
-
-interface AddressType {
-  cep: string;
-  street: string;
-  number: string;
-  complement: string;
-  district: string;
-  city: string;
-  uf: string;
-}
-
-interface FormDataType {
-  address: AddressType;
-  paymentType: "CREDIT_CARD" | "DEBIT_CARD" | "MONEY" | null;
-}
+import { toast } from "react-toastify";
+import { OrderDetailsContext } from "../../contexts/OrderDetailsContext";
+import { PaymentType } from "../../@types/Payment";
 
 export function Checkout() {
   const navigation = useNavigate();
   const { shoppingCartItems, resetShoppingCart } =
     useContext(ShoppingCartContext);
-  const [formData, setFormData] = useState<FormDataType>({
-    address: {
-      cep: "",
-      street: "",
-      number: "",
-      complement: "",
-      district: "",
-      city: "",
-      uf: "",
-    },
-    paymentType: null,
-  });
+  const { address, paymentType, changeAddressByKey, selectPayment } =
+    useContext(OrderDetailsContext);
 
   function handleChangeInput({
     target: { name, value },
   }: ChangeEvent<HTMLInputElement>) {
-    setFormData((prevState) => {
-      let newValue = value;
-
-      if (name === "cep") {
-        newValue = cepMask.applyMask(value);
-      }
-
-      if (name === "uf") {
-        newValue = UFMask.applyMask(value);
-      }
-
-      return {
-        ...prevState,
-        address: {
-          ...prevState.address,
-          [name]: newValue,
-        },
-      };
-    });
+    changeAddressByKey(name, value);
   }
 
-  function handleSelectPayment({
-    target: { name, value },
-  }: ChangeEvent<HTMLInputElement>) {
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+  function handleSelectPayment(event: ChangeEvent<HTMLInputElement>) {
+    selectPayment(event.target.value as PaymentType);
   }
 
   function handleConfirmOrder(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     navigation("/success");
     resetShoppingCart();
-    toast.success('Seu pedido foi confirmado e está sendo enviado!')
+    toast.success("Seu pedido foi confirmado e está sendo enviado!");
   }
 
   function checkThatAllDataHasBeenFilledIn() {
-    const { address, paymentType } = formData;
-
     const isAllDataHasBeenFilledIn =
       shoppingCartItems.length &&
       paymentType &&
@@ -147,7 +98,7 @@ export function Checkout() {
             <InputsContainer>
               <Input
                 placeholder="CEP"
-                value={formData.address.cep}
+                value={address.cep}
                 name="cep"
                 onChange={handleChangeInput}
                 maxLength={9}
@@ -156,7 +107,7 @@ export function Checkout() {
 
               <Input
                 placeholder="Rua"
-                value={formData.address.street}
+                value={address.street}
                 name="street"
                 onChange={handleChangeInput}
                 required
@@ -164,7 +115,7 @@ export function Checkout() {
 
               <Input
                 placeholder="Número"
-                value={formData.address.number}
+                value={address.number}
                 name="number"
                 onChange={handleChangeInput}
                 required
@@ -172,7 +123,7 @@ export function Checkout() {
 
               <Input
                 placeholder="Complemento"
-                value={formData.address.complement}
+                value={address.complement}
                 name="complement"
                 onChange={handleChangeInput}
                 isOptional
@@ -180,7 +131,7 @@ export function Checkout() {
 
               <Input
                 placeholder="Bairro"
-                value={formData.address.district}
+                value={address.district}
                 name="district"
                 onChange={handleChangeInput}
                 required
@@ -188,7 +139,7 @@ export function Checkout() {
 
               <Input
                 placeholder="Cidade"
-                value={formData.address.city}
+                value={address.city}
                 name="city"
                 onChange={handleChangeInput}
                 required
@@ -196,7 +147,7 @@ export function Checkout() {
 
               <Input
                 placeholder="UF"
-                value={formData.address.uf}
+                value={address.uf}
                 name="uf"
                 onChange={handleChangeInput}
                 maxLength={2}

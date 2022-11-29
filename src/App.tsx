@@ -7,6 +7,7 @@ import { ShoppingCartContextProvider } from "./contexts/ShoppingCartContext";
 import { Header } from "./components/Header";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { OrderDetailsContextProvider } from "./contexts/OrderDetailsContext";
 
 export function App() {
   return (
@@ -14,8 +15,10 @@ export function App() {
       <GlobalStyle />
       <BrowserRouter>
         <ShoppingCartContextProvider>
-          <Header />
-          <AppRoutes />
+          <OrderDetailsContextProvider>
+            <Header />
+            <AppRoutes />
+          </OrderDetailsContextProvider>
         </ShoppingCartContextProvider>
       </BrowserRouter>
       <ToastContainer position="bottom-center" />
