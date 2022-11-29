@@ -141,7 +141,12 @@ export const ConfirmOrderButton = styled.button`
   font-size: ${({theme}) => theme.font.size.text.sm};
   transition: 0.3s;
 
-  :hover {
+  :hover:not(:disabled) {
     background: ${({theme}) => theme.color.yellow[700]};
+  }
+  
+  :disabled {
+    opacity: .5;
+    cursor: not-allowed;
   }
 `;

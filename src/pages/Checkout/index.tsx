@@ -98,6 +98,22 @@ export function Checkout() {
     resetShoppingCart();
   }
 
+  function checkThatAllDataHasBeenFilledIn() {
+    const { address, paymentType } = formData;
+
+    const isAllDataHasBeenFilledIn =
+      shoppingCartItems.length &&
+      paymentType &&
+      address.cep &&
+      address.city &&
+      address.district &&
+      address.number &&
+      address.street &&
+      address.uf;
+
+    return !!isAllDataHasBeenFilledIn;
+  }
+
   const totalPriceItemsInCents = shoppingCartItems.reduce(
     (acc, coffee) => acc + coffee.priceInCents * coffee.quantity,
     0
@@ -261,7 +277,12 @@ export function Checkout() {
               </div>
             </OrderTotalPriceContainer>
 
-            <ConfirmOrderButton>confirmar pedido</ConfirmOrderButton>
+            <ConfirmOrderButton
+              type="submit"
+              disabled={!checkThatAllDataHasBeenFilledIn()}
+            >
+              confirmar pedido
+            </ConfirmOrderButton>
           </OrderSummary>
         </div>
       </Content>
