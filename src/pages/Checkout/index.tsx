@@ -53,18 +53,24 @@ export function Checkout() {
     toast.success("Seu pedido foi confirmado e está sendo enviado!");
   }
 
+  function checkIfAddressHasBeenFilledIn() {
+    const hasAddressBeenFilled = Object.entries(address).every(
+      ([key, value]) => {
+        if (key === "complement") return true;
+        return value.length > 0;
+      }
+    );
+
+    return hasAddressBeenFilled;
+  }
+
   function checkThatAllDataHasBeenFilledIn() {
     const isAllDataHasBeenFilledIn =
-      shoppingCartItems.length &&
+      shoppingCartItems.length > 0 &&
       paymentType &&
-      address.cep &&
-      address.city &&
-      address.district &&
-      address.number &&
-      address.street &&
-      address.uf;
+      checkIfAddressHasBeenFilledIn();
 
-    return !!isAllDataHasBeenFilledIn;
+    return isAllDataHasBeenFilledIn;
   }
 
   const totalPriceItemsInCents = shoppingCartItems.reduce(
@@ -170,7 +176,7 @@ export function Checkout() {
 
             <PaymentOptions>
               <Select
-                checked={paymentType === 'CREDIT_CARD'}
+                checked={paymentType === "CREDIT_CARD"}
                 name="paymentType"
                 value="CREDIT_CARD"
                 onChange={handleSelectPayment}
@@ -181,7 +187,7 @@ export function Checkout() {
               </Select>
 
               <Select
-                checked={paymentType === 'DEBIT_CARD'}
+                checked={paymentType === "DEBIT_CARD"}
                 name="paymentType"
                 value="DEBIT_CARD"
                 onChange={handleSelectPayment}
@@ -192,7 +198,7 @@ export function Checkout() {
               </Select>
 
               <Select
-                checked={paymentType === 'MONEY'}
+                checked={paymentType === "MONEY"}
                 name="paymentType"
                 value="MONEY"
                 onChange={handleSelectPayment}
@@ -222,10 +228,12 @@ export function Checkout() {
                 <p>{totalPriceItems}</p>
               </div>
 
-              <div>
-                <p>Entrega</p>
-                <p>{deliveryFee}</p>
-              </div>
+              {checkIfAddressHasBeenFilledIn() && (
+                <div>
+                  <p>Entrega</p>
+                  <p>{deliveryFee}</p>
+                </div>
+              )}
 
               <div>
                 <p>Total</p>
