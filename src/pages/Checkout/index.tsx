@@ -6,7 +6,7 @@ import {
   Money,
 } from "phosphor-react";
 import { CartCard } from "../../components/CartCard";
-import Input from "../../components/Input";
+import { Input } from "../../components/Input";
 import { Select } from "../../components/Select";
 import { theme } from "../../styles/theme";
 import {

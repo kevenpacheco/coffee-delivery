@@ -5,7 +5,7 @@ interface InputPropType extends InputHTMLAttributes<HTMLInputElement> {
   isOptional?: boolean;
 }
 
-export default function Input({ isOptional, ...props }: InputPropType) {
+export function Input({ isOptional, ...props }: InputPropType) {
   return (
     <InputContainer>
       <input {...props} />
