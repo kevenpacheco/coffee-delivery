@@ -5,6 +5,8 @@ import { AppRoutes } from "./routes";
 import { BrowserRouter } from "react-router-dom";
 import { ShoppingCartContextProvider } from "./contexts/ShoppingCartContext";
 import { Header } from "./components/Header";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export function App() {
   return (
@@ -16,6 +18,7 @@ export function App() {
           <AppRoutes />
         </ShoppingCartContextProvider>
       </BrowserRouter>
+      <ToastContainer position="bottom-center" />
     </ThemeProvider>
   );
 }

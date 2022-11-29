@@ -26,6 +26,7 @@ import { transformCentsInReal } from "../../utils/transformCentsInReal";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCartContext } from "../../contexts/ShoppingCartContext";
 import { cepMask, UFMask } from "../../utils/inputMasks";
+import { toast } from 'react-toastify';
 
 interface AddressType {
   cep: string;
@@ -96,6 +97,7 @@ export function Checkout() {
     event.preventDefault();
     navigation("/success");
     resetShoppingCart();
+    toast.success('Seu pedido foi confirmado e está sendo enviado!')
   }
 
   function checkThatAllDataHasBeenFilledIn() {

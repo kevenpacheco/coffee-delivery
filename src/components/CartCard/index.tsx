@@ -5,6 +5,7 @@ import { ShoppingCartContext } from "../../contexts/ShoppingCartContext";
 import { transformCentsInReal } from "../../utils/transformCentsInReal";
 import { CountButton } from "../Buttons/CountButton";
 import { Actions, Container, Info, RemoveButton, Total } from "./styles";
+import { toast } from "react-toastify";
 
 interface CartCardPropsType {
   data: ShoppingCartItemsType;
@@ -17,6 +18,11 @@ export function CartCard({ data }: CartCardPropsType) {
     incrementShoppingCartItemById,
     deleteCoffeeInShoppingCartById,
   } = useContext(ShoppingCartContext);
+
+  function handleRemoveCoffeInShoppingCart() {
+    deleteCoffeeInShoppingCartById(id);
+    toast.success("Café removido");
+  }
 
   const priceTotal = transformCentsInReal(priceInCents * quantity);
 
@@ -38,7 +44,7 @@ export function CartCard({ data }: CartCardPropsType) {
 
             <RemoveButton
               type="button"
-              onClick={() => deleteCoffeeInShoppingCartById(id)}
+              onClick={handleRemoveCoffeInShoppingCart}
             >
               <Trash size={16} />
               <span>Remover</span>

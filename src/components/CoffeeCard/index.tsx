@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import { CoffeeType } from "../../@types/Coffee";
 import { ShoppingCartContext } from "../../contexts/ShoppingCartContext";
 import { CountButton } from "../Buttons/CountButton";
+import {toast} from 'react-toastify';
 import {
   Actions,
   CartButton,
@@ -33,6 +34,7 @@ export function CoffeeCard({ data }: CoffeeCardPropsType) {
   function handleAddToShoppingCart() {
     addCoffeeInShoppingCart(data, quantity);
     setQuantity(0);
+    toast.success('Café adicionado com sucesso')
   }
 
   const priceInReal = new Intl.NumberFormat("pt-BR", {
