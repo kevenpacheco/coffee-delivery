@@ -1,12 +1,19 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+interface PropsType {
+  isVisible: boolean;
+}
+
+export const Container = styled.div<PropsType>`
   display: flex;
   flex-direction: column;
   align-items: center;
   background: ${({theme}) => theme.color.base.card};
   border-radius: 6px 36px;
   padding: 0 1.5rem 1.25rem;
+  opacity: ${({isVisible}) => isVisible ? '1' : '0'};
+  transform: translateY(${({isVisible}) => isVisible ? '0' : '20%'});
+  transition: .5s ease-out;
 
   img {
     margin-top: -1.25rem;

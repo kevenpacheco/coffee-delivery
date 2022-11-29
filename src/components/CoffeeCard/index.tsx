@@ -1,9 +1,9 @@
 import { ShoppingCart } from "phosphor-react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { CoffeeType } from "../../@types/Coffee";
 import { ShoppingCartContext } from "../../contexts/ShoppingCartContext";
 import { CountButton } from "../Buttons/CountButton";
-import {toast} from 'react-toastify';
+import { toast } from "react-toastify";
 import {
   Actions,
   CartButton,
@@ -22,6 +22,9 @@ export function CoffeeCard({ data }: CoffeeCardPropsType) {
   const { description, image, priceInCents, tags, title } = data;
   const { addCoffeeInShoppingCart } = useContext(ShoppingCartContext);
   const [quantity, setQuantity] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+
+  const containerRef = useRef(null);
 
   function handleIncrementQuantity() {
     setQuantity((prevState) => prevState + 1);
@@ -34,18 +37,46 @@ export function CoffeeCard({ data }: CoffeeCardPropsType) {
   function handleAddToShoppingCart() {
     addCoffeeInShoppingCart(data, quantity);
     setQuantity(0);
-    toast.success('Café adicionado com sucesso')
+    toast.success("Café adicionado com sucesso");
   }
 
   const priceInReal = new Intl.NumberFormat("pt-BR", {
     maximumFractionDigits: 2,
     minimumFractionDigits: 2,
-  }).format(
-    priceInCents / 100
-  );
+  }).format(priceInCents / 100);
+
+  useEffect(() => {
+    const threshold = 0.01;
+
+    const options: IntersectionObserverInit = {
+      root: null,
+      rootMargin: "0px",
+      threshold,
+    };
+
+    function callback(entries: IntersectionObserverEntry[]) {
+      const [entry] = entries;
+      const { intersectionRatio } = entry;
+
+      if (intersectionRatio >= threshold) {
+        setIsVisible(true);
+      }
+    }
+
+    const observer = new IntersectionObserver(callback, options);
+    if (containerRef?.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      if (containerRef?.current) {
+        observer.unobserve(containerRef.current);
+      }
+    };
+  }, [containerRef]);
 
   return (
-    <Container>
+    <Container isVisible={isVisible} ref={containerRef}>
       <img
         src={image}
         alt={`Pires e a xícara de café ${title}`}
@@ -76,7 +107,11 @@ export function CoffeeCard({ data }: CoffeeCardPropsType) {
             onIncrement={handleIncrementQuantity}
           />
 
-          <CartButton type="button" onClick={handleAddToShoppingCart} disabled={quantity < 1}>
+          <CartButton
+            type="button"
+            onClick={handleAddToShoppingCart}
+            disabled={quantity < 1}
+          >
             <ShoppingCart weight="fill" size={22} />
           </CartButton>
         </Actions>
