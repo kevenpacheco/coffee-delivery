@@ -20,6 +20,8 @@ Coffee Delivery is an application that simulates the management of a shopping ca
 
 ![](./src/assets/demo.gif)
 
+[DEMO LIVE](https://coffee-delivery-keven.netlify.app/)
+
 ## 🚀 Step by step to use the application
 
 1 - Install the dependencies:
